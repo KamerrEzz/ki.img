@@ -1,0 +1,40 @@
+<header>
+    {{> nav}}
+</header>
+
+<main>
+
+    <section class="container m-5">
+        <div class="card">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-body">
+                        <div class="card-header">
+                            {{url}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="card-body">
+                        <p>Imagen</p>
+                        <img src="{{url}}" alt="" class="img-fluid img-thumbnail">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card-body">
+                        <p>HTML</p>
+                        <br>
+                        <div class="container">
+                            <div class="card-header">
+                                {{embed}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
