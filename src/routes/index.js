@@ -2,6 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const path = require('path');
 const multer = require('multer');
+const fs = require('fs');
 const base_url = "http://localhost:3000/img"
 // 
 
@@ -46,9 +47,15 @@ router
         });
     })
 
-    .get('/modal', (req, res) => {
-        const imgs = require('../public/img');
-        console.log(imgs);
+    .get('/img', (req, res) => {
+        fs.readdir('./src/public/img', (err, data) => {
+            
+
+            res.render('img',{
+                url: `${base_url}/<ID>`,
+               data
+            })
+        })
         
     })
 module.exports = router;
