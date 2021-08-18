@@ -1,15 +1,12 @@
 const { Router } = require('express');
-const router = Router();
-const path = require('path');
-const multer = require('multer');
 const fs = require('fs');
-const base_url = "http://localhost:3000/img"
-// 
+const multer = require('multer');
+const path = require('path');
+const router = Router();
 
 const storage = multer.diskStorage({
     destination: path.join(__dirname, "../public/img"),
     filename: (req, file, cb) => {
-        let random = Math.floor(Math.random() * 100) + 1;
         cb(null, "ki.img-" + Date.now() + "-" + file.originalname)
     }
 })
@@ -27,11 +24,31 @@ const uploadImg = multer({
         }
     }
 }).single("img")
-// 
+
+
+// var upload = multer({
+//     storage: storage,
+//     fileFilter: (req, file, cb) => {
+//         if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+//             cb(null, true);
+//         } else {
+//             cb(null, false);
+//             return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+//         }
+//     }
+// });
 
 router
     .get('/', (req, res) => {
-        res.render('main')
+        fs.readdir('./src/public/img', (err, data) => {
+
+
+            res.status(200).json({
+                status: 200,
+                data
+            })
+
+        })
     })
     .post('/upload', (req, res) => {
         uploadImg(req, res, (err) => {
@@ -39,23 +56,18 @@ router
                 console.log(err);
             }
             console.log(req.file);
-
-            res.render("modal", {
-                url: `${base_url}/${req.file.filename}`,
-                embed: `<img src="${base_url}/${req.file.filename}"`
-            })
+            res.send(req.file.filename)
         });
     })
-
-    .get('/img', (req, res) => {
+    .get('/:id', (req, res) => {
         fs.readdir('./src/public/img', (err, data) => {
-            
 
-            res.render('img',{
-                url: `${base_url}/<ID>`,
-               data
+
+            res.status(200).json({
+                status: 200,
+                data
             })
+
         })
-        
     })
-module.exports = router;
+module.exports = router
