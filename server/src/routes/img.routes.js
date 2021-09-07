@@ -25,19 +25,6 @@ const uploadImg = multer({
     }
 }).single("img")
 
-
-// var upload = multer({
-//     storage: storage,
-//     fileFilter: (req, file, cb) => {
-//         if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-//             cb(null, true);
-//         } else {
-//             cb(null, false);
-//             return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-//         }
-//     }
-// });
-
 router
     .get('/', (req, res) => {
         fs.readdir('./src/public/img', (err, data) => {
@@ -54,9 +41,16 @@ router
         uploadImg(req, res, (err) => {
             if (err) {
                 console.log(err);
+                return res.status(404).json({
+                    status: 400,
+                    err
+                })
+            } else {
+                return res.status(200).json({
+                    status: 200,
+                    data: req.file.filename
+                })
             }
-            console.log(req.file);
-            res.send(req.file.filename)
         });
     })
     .get('/:id', (req, res) => {

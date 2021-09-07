@@ -17,6 +17,7 @@ class Home extends Component {
         try {
             const response = await fetch("http://localhost:3001/");
             const res = await response.json()
+            console.log(res);
             this.setState({ loading: true, data: res.data });
         } catch (error) {
             this.setState({

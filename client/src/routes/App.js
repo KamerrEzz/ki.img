@@ -1,11 +1,11 @@
-// import Home from '../pages/Home'
-import Post from '../pages/Post'
+import Home from '../pages/Home'
+// import Post from '../pages/Post'
 
 function App() {
   return (
     <div className="App">
-      {/* <Home /> */}
-      <Post />
+      <Home />
+      {/* <Post /> */}
     </div>
   );
 }
