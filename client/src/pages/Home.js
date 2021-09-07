@@ -17,8 +17,9 @@ class Home extends Component {
         try {
             const response = await fetch("http://localhost:3001/");
             const res = await response.json()
-            console.log(res);
-            this.setState({ loading: true, data: res.data });
+            setTimeout(() => {
+                this.setState({ loading: true, data: res.data });
+            }, 1000);
         } catch (error) {
             this.setState({
                 loading: true,
@@ -27,18 +28,32 @@ class Home extends Component {
         }
     }
 
-
+    Spinner = () => {
+        return (
+            <div className="load">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        )
+    }
 
 
     render() {
 
-        if(!this.state.loading) return <div>Loading...</div>
+        if(!this.state.loading) return (<this.Spinner />)
 
         return (
-            <div>
-                {this.state.data.map((a,i) => (
-                    <img src={'http://localhost:3001/img/'+a} alt={a} key={i} />
-                ))}
+            <div className="container-fluid mt-5">
+                <div className="row">
+                    {this.state.data.map((a,i) => (
+                        <div className="col-lg-3 col-md-12 mb-2" key={i}>
+                            <div className="card">
+                                <img className="img-fluid" src={'http://localhost:3001/img/'+a} alt={a} />
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }

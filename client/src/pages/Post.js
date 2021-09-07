@@ -21,7 +21,11 @@ class Home extends Component {
         const filetypes = /jpeg|jpg|png|gif/;
         const extname = filetypes.test(path.extname(e.target.files[0].name));
         if(!extname){
-            this.setState({ error: {message: 'No se permite ese formato'} });
+            this.setState({ 
+                error: {message: 'No se permite ese formato, seleccion otro.'}, 
+                render: null,
+                file: null
+            });
         } else {
             let reader = new FileReader();
             reader.readAsDataURL(e.target.files[0]);
@@ -51,16 +55,19 @@ class Home extends Component {
     
 
     Form = () => (
-    <div>
-        <form onSubmit={this.onSubmit}>
-            <label>
-                Subir imagen:
-                <input type="file" name="img" onChange={e => this.selecFile(e)} />
-            </label>
-        <div>{this.state.error ? this.state.error.message : (<input type="submit" value="Submit" />)}</div>
-        </form>
-
-        <img src={this.state.render} alt=""/>
+    <div className="row mt-5 h-500">
+        <div className="col-lg-6 col-md-6">
+            <form onSubmit={this.onSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="exampleInputEmail1" className="form-label">Subir imagen:</label>
+                    <input className="form-control" type="file" name="img" onChange={e => this.selecFile(e)} />
+                </div>
+                <div>{this.state.error ? this.state.error.message : (<input className="btn btn-primary mb-3" type="submit" value="Submit" />)}</div>
+            </form>
+        </div>
+        <div className="col-lg-6 col-md-6">
+            <img className="img-fluid" src={this.state.render} alt=""/>
+        </div>
     </div>
     )
 
@@ -69,9 +76,9 @@ class Home extends Component {
         if (!this.state.loading) return <div>Loading...</div>
 
         return (
-            <>
+            <div className="container">
                 {this.state.send ? (<img src={'http://localhost:3001/img/' + this.state.static.data}  alt="send"/>) : (<this.Form />)}
-            </>
+            </div>
         );
     }
 }
